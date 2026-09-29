@@ -1,0 +1,12 @@
+# Project policy. The Oystro engine may compile locked-constraint and constitution hashes
+# into this file; in protocol-only projects it is maintained by hand.
+project_name: "Project Name"
+locked_constraints:
+  - id: CON-001
+    constraint: "Constraint description"
+    rationale: "Why this constraint is locked"
+constitution_hash: "sha256_hash_of_constitution"
+workflow_default: "M/L" # S or M/L
+technology_stack:
+  - "Go"
+  - "SQLite"

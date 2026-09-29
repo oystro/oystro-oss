@@ -1,0 +1,51 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets — never commit
+*.env
+.env
+.env.*
+config.yaml
+config.yml
+*.key
+*.pem
+secrets/
+
+# Build artifacts
+bin/
+dist/
+coverage.out
+*.test
+*.prof
+node_modules/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Logs
+*.log
+
+# Consumer-project state (created inside a user's project, never in this protocol repo)
+.oystro-oss/
+.oystro/
+
+# Internal migration plan (strategy/internal repo names; not part of the OSS artifact)
+PLAN.md
+
+# Temp files
+*.tmp
+*.temp
+
+# Agent Worktrees & Temp
+.worktrees/
+work-temp/

@@ -1,0 +1,11 @@
+# Two-resolution milestone plan. Derived artifact: the Oystro engine regenerates it
+# automatically; in protocol-only projects, maintain it by hand.
+phases:
+  - id: PHASE-01
+    name: "Phase Name"
+    status: "active" # active | pending | completed
+    slices:
+      - id: F101
+        name: "Slice/Feature Name"
+        status: "active" # active | pending | completed | archived
+        resolution: "detailed" # detailed | summary

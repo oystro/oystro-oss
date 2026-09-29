@@ -1,0 +1,139 @@
+# Oystro Canonical AGENTS.md Specification & Dual-Mode Fallback Contract
+
+**Document:** `oystro-ideation/canonical-agents-spec.md`  
+**Applies to:** Oystro Standard Edition & Team Edition  
+**Target File in Managed Repositories:** `<repo-root>/AGENTS.md` (and `.oystro/AGENTS.md` fallback pointer)  
+**Date:** 2026-09-18 · **Revised:** 2026-09-25 (aligned with the shipped retrieval/impact tier — see `RETRIEVAL-S3-IMPACT-AND-LSP.md`)
+
+---
+
+## 1. Why a Canonical `AGENTS.md` is Non-Negotiable
+
+Autonomous coding tools (Claude Code, Cursor, Cline, Roo Code, Copilot Workspace, Aider) do not have human intuition. They rely on root-level instructions (`AGENTS.md`, `CLAUDE.md`, `.cursorrules`) injected into their context window at the start of every session.
+
+Without an authoritative, canonical `AGENTS.md`:
+1. **Agent State Blindness:** The agent does not know that this repository is governed by Oystro, and may attempt direct code mutations without defining a slice.
+2. **MCP Disconnection Risk:** If an IDE or terminal agent cannot reach the MCP server (e.g., MCP not configured in the IDE settings, Unix domain socket unavailable, or permission denied), the agent will stall or hallucinate state rather than executing the terminal CLI.
+3. **Brownfield Git Flow Corruption:** On repositories using Git Flow (`develop`, `feature/*`, `release/*`), an uninstructed agent will blindly assume trunk-based development, mutating the developer's root working tree and pushing directly to `main`.
+4. **Gate Bypassing:** An agent might try to edit `.oystro/handover.yaml` directly rather than invoking `oystro verify`.
+
+The canonical `AGENTS.md` eliminates these failure modes by defining an unambiguous, machine-enforceable contract.
+
+> **Single source of guidance.** The retrieval/impact policy in §4 (§2 "Code Retrieval & Impact") is
+> the same policy delivered over MCP in the `initialize.instructions` response
+> (`internal/mcp/instructions.go`). The two MUST agree; a test asserts they do.
+
+---
+
+## 2. The Dual-Mode Execution Hierarchy
+
+The Oystro execution protocol follows a strict 3-tier fallback ladder:
+
+```text
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ TIER 1: MCP Native Protocol (Preferred)                                      │
+│ Use native `oystro_*` structured JSON-RPC tools for sub-millisecond execution │
+└──────────────────────────────────────┬───────────────────────────────────────┘
+                                       │ (If MCP tools offline / unavailable)
+                                       ▼
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ TIER 2: Deterministic CLI Fallback via Terminal Execution                    │
+│ Execute equivalent `oystro <subcommand>` commands via bash/zsh terminal      │
+│ (100% feature-complete parity with MCP tools)                                │
+└──────────────────────────────────────┬───────────────────────────────────────┘
+                                       │ (If `oystro` CLI binary missing from PATH)
+                                       ▼
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ TIER 3: Passive Read-Only Compliance & Explicit User Warning                 │
+│ Read `.oystro/handover.yaml` directly; display installation curl banner to   │
+│ the user; refuse to bypass governance gates                                  │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 3. The 1:1 Rosetta Stone: MCP Tool ⟷ CLI Command Parity
+
+Every MCP tool exposed by the Oystro server is a direct reflection of a scriptable `oystro` CLI command:
+
+| Capability | Tier 1: MCP Tool | Tier 2: Deterministic Terminal Command | Output & Evidence |
+|---|---|---|---|
+| **Session Handshake** | `oystro_handshake(agent, model)` | `oystro handshake --agent … --model …` | registers the actor; returns the MCP contract |
+| **Status / Handover** | `oystro_status()` | `oystro status --json` | index freshness, lifecycle state, capability |
+| **Code Navigation** | `oystro_explore(query)` | `oystro explore "<q>"` | symbols + callers/callees + source |
+| **Symbol Search** | `oystro_search(query, terms)` | `oystro search "<q>"` | field-weighted symbol + source hits |
+| **Impact** | `oystro_blast_radius(symbol)` | `oystro blast-radius <sym>` | callers + type references, with `engine` tier |
+| **Slice Registration** | `oystro_define(name, files, spec)` | `oystro define --name "<name>" --files "<f1,f2>"` | registers slice in vault & updates handover |
+| **Gate Verification** | `oystro_verify(gate)` | `oystro verify --gate G2` | runs test suite, binds git tree, signs receipt |
+| **Human Release Gate** | `oystro_release(token)` | `oystro release --token <nonce>` | validates one-time nonce, verifies zero drift, tags |
+
+---
+
+## 4. The Exact Canonical `AGENTS.md` Template
+
+This content is generated by `oystro init` and non-destructively merged via
+`internal/scaffold/scaffold.go` (`CanonicalAgentsMD`). The retrieval/impact policy
+(`## 2` below) is identical to the MCP `initialize.instructions`.
+
+```markdown
+<!-- OYSTRO_WORKFLOW_ENGINE_START -->
+# Oystro Autonomous Agent Governance Contract
+
+This repository is governed by **Oystro**. All agents and subagents MUST adhere to this contract.
+
+## 0. Session start
+- **MCP available:** call `oystro_handshake` once (pass agent + model), then `oystro_status`.
+- **CLI only:** `oystro handshake --agent <client> --model <model>`, then `oystro status`.
+- `oystro_status` reports index freshness. If `freshness != ready`, retrieval is partial — check `coverage`.
+
+## 1. Dual-Mode Tool Protocol (MCP-first, deterministic CLI fallback)
+- **Tier 1 (MCP, preferred):** native `oystro_*` tools — `oystro_handshake`, `oystro_status`,
+  `oystro_explore`, `oystro_search`, `oystro_blast_radius`, `oystro_define`, `oystro_verify`, `oystro_release`.
+- **Tier 2 (CLI fallback, equivalent):** the same `oystro <cmd>` via bash. Do NOT stall or bypass governance.
+- **Tier 3 (passive):** if the `oystro` binary is missing from `$PATH`, read `.oystro/handover.yaml` and
+  `.oystro/CONSTITUTION.md`, comply with their boundaries, and show the user the install notice.
+  NEVER fabricate verification receipts or edit `.oystro/verification/*.yaml` by hand.
+
+## 2. Code Retrieval & Impact (use Oystro first)
+- **Entry point:** `oystro_explore` for unfamiliar code, architecture, control flow, and
+  callers/callees; `oystro_search` for exact identifiers and strings (derive concrete `terms` for
+  vague requests).
+- **Impact:** `oystro_blast_radius` for "what breaks if I change X" — returns callers and type
+  references; the response reports its `engine` (`lsp+tree-sitter` / `tree-sitter`) and `coverage`.
+- **Prefer Oystro over grepping and reading files one by one. Fall back to Read/Grep/Glob when** the
+  content is unindexed, generated, external, or very recently modified, or when a response reports
+  `status`/`freshness` as partial or stale. This is a **fallback, not a prohibition** — completeness wins.
+- **Honesty:** read `coverage`/`status`; treat `no_call_edges`/`ambiguous_symbol` as incomplete, not
+  safe. For an ambiguous name, re-query with the qualified name the response suggests.
+- **Do not repeat** grep/read over files Oystro already returned, unless verifying a recent edit or a
+  reported gap.
+
+## 3. Non-Negotiable Rules of Engagement
+1. **Never mutate without an active slice:** check `oystro_status`; if none, `oystro_define` with the target files.
+2. **Never edit authoritative state by hand:** `.oystro/handover.yaml` is a generated projection; manual edits fail verification.
+3. **Respect worktree isolation & Git Flow:** branch per the custom rules below; background tasks run in worktrees.
+4. **Human release gate:** agents cannot approve their own release — `oystro_release` needs a human nonce.
+5. **Claim honesty:** implement the named technology (no stand-ins); never rebrand a spec/log to match
+   what was built; prove runtime use, not mere presence; spike before replacing a technology; every
+   "done" carries machine-verified evidence; the spec is the contract; correct history with
+   superseding records, never in-place edits.
+<!-- OYSTRO_WORKFLOW_ENGINE_END -->
+
+# Repository Custom Rules & Guidelines
+<!-- Existing repository brownfield guidelines, build instructions, and custom policies follow below. -->
+```
+
+---
+
+## 5. Non-Destructive Merging in `internal/scaffold/scaffold.go`
+
+When `oystro init` is run in an existing brownfield repository:
+1. It inspects whether `AGENTS.md` exists.
+2. If `AGENTS.md` already exists:
+   - It searches for `<!-- OYSTRO_WORKFLOW_ENGINE_START -->` and `<!-- OYSTRO_WORKFLOW_ENGINE_END -->`.
+   - If found, it updates the block between the tags with the latest canonical contract, leaving everything outside the tags untouched.
+   - If not found, it prepends the Oystro block to the top of the file, preserving all existing repository rules, linter guidelines, and developer conventions intact under `# Repository Custom Rules & Guidelines`.
+3. If neither `AGENTS.md` nor `CLAUDE.md` exists:
+   - It creates `AGENTS.md` and generates a lightweight symlink: `CLAUDE.md -> AGENTS.md` so Claude Code automatically discovers it.
+4. **Idempotent repair:** re-running `oystro init` on an already-initialized workspace re-merges the
+   block and ensures `.mcp.json` exist (non-destructive).

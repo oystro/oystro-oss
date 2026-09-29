@@ -1,0 +1,14 @@
+# Default owners for everything in this repository.
+*                       @oystro/core
+
+# Protocol surface: maintainers of the public community edition.
+/commands/              @oystro/oss
+/templates/             @oystro/oss
+/agents/                @oystro/oss
+
+# Governance and contracts: org maintainers.
+/AGENTS.md              @oystro/core
+/MIGRATION.md           @oystro/core
+/README.md              @oystro/oss
+/LICENSE                @oystro/core
+/.github/               @oystro/core
