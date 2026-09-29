@@ -348,3 +348,15 @@ Both skip the full design/tasks cycle and pre-build approval gates, using one ch
 Versioned migration of internal data structures (the project state `manifest.json`: `.oystro-oss/` in protocol-only projects, `.oystro/` after adopting the paid product) is provided by the Oystro engine, not by this protocol repository.
 The current generation lineage is `Foundry`.
 See [MIGRATION.md](MIGRATION.md) for migrating `.oystro-oss/` state to `.oystro/` when adopting the paid product.
+
+## Local secret-scan hooks (agents MUST enforce)
+
+Secrets must never leave the machine. CI secret scanning only detects a leak **after it is already
+pushed**, so the local hooks are the real prevention. In every clone, before any git work:
+
+- Ensure hooks are installed: `git config core.hooksPath` must be `githooks`. If it is not, run
+  `./scripts/setup-hooks.sh` (or `git config core.hooksPath githooks`).
+- **NEVER** pass `--no-verify` to `git commit` or `git push`.
+- `gitleaks` must be installed via your platform's package manager — macOS: `brew install gitleaks`; Windows: `winget install Gitleaks.Gitleaks`; Linux: `apt`/`dnf`/`pacman` or the release binary. Do not bypass if it is missing.
+- Before finishing, scan the working tree, including gitignored files:
+  `./scripts/scan-secrets.sh`.
