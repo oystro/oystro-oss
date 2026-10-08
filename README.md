@@ -1,6 +1,6 @@
 # oystro-oss
 
-**A full-lifecycle software engineering protocol for AI coding assistants.**
+**A full-lifecycle software engineering protocol for AI coding agents.**
 
 One protocol. Any agent. Any project. From big picture to shipped feature — with human gates,
 structured templates, and explicit phase transitions for large BRDs.
