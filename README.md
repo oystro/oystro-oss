@@ -1,6 +1,6 @@
 # oystro-oss
 
-**A full-lifecycle software engineering protocol for AI coding assistants.**
+**A full-lifecycle software engineering protocol for AI coding agents.**
 
 One protocol. Any agent. Any project. From big picture to shipped feature — with human gates,
 structured templates, and explicit phase transitions for large BRDs.
@@ -26,6 +26,8 @@ read https://github.com/oystro/oystro-oss/blob/main/commands/init.md and follow 
 | **Existing code** | Reverse-engineers BRD, constitution, architecture |
 | **PRD + ADR ready** | Derives all documents from existing docs |
 | **Has .oystro-oss/** | Refreshes the protocol reference, preserves customizations |
+
+![oystro-oss walkthrough](docs/assets/demo.gif)
 
 ---
 
