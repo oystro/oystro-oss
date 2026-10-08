@@ -27,6 +27,8 @@ read https://github.com/oystro/oystro-oss/blob/main/commands/init.md and follow 
 | **PRD + ADR ready** | Derives all documents from existing docs |
 | **Has .oystro-oss/** | Refreshes the protocol reference, preserves customizations |
 
+![oystro-oss walkthrough](docs/assets/demo.gif)
+
 ---
 
 ## Protocol vs runtime
