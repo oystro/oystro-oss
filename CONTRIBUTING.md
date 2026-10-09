@@ -12,7 +12,7 @@ fully before opening your first pull request.
 ## 1. Licensing — AGPL-3.0 + Contributor License Agreement
 
 This repository is licensed under the **GNU Affero General Public License,
-version 3** (see [`LICENSE`](./LICENSE)). Oystro Technologies
+version 3** (see [`LICENSE`](./LICENSE)). Oystro
 dual-licenses the core
 commercially, so in order to accept contributions we require a **Contributor
 License Agreement (CLA)**.
@@ -20,7 +20,7 @@ License Agreement (CLA)**.
 ### The Contributor License Agreement
 
 By submitting a contribution (code, documentation, tests, or any other
-material), you agree to grant **Oystro Technologies** and its
+material), you agree to grant **Oystro** and its
 successors a **perpetual, worldwide, non-exclusive, royalty-free,
 irrevocable license** to
 use, copy, modify, publish, distribute, sublicense, and create derivative

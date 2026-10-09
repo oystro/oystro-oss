@@ -1,7 +1,7 @@
                     GNU AFFERO GENERAL PUBLIC LICENSE
                        Version 3, 19 November 2007
 
-Copyright (C) 2026  Oystro Technologies
+Copyright (C) 2026  Oystro
 
  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  Everyone is permitted to copy and distribute verbatim copies
@@ -632,7 +632,7 @@ state the exclusion of warranty; and each file should have at least
 the "copyright" line and a pointer to where the full notice is found.
 
     Oystro OSS — a full-lifecycle software engineering protocol for AI coding assistants.
-    Copyright (C) 2026  Oystro Technologies
+    Copyright (C) 2026  Oystro
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published by

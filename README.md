@@ -169,7 +169,7 @@ This activates `githooks/pre-commit` to deterministically block sensitive filena
 
 ## License
 
-Copyright (c) 2026 Oystro Technologies. See [NOTICE](NOTICE).
+Copyright (c) 2026 Oystro. See [NOTICE](NOTICE).
 
 Licensed under the GNU Affero General Public License v3.0 only (`AGPL-3.0-only`). See [LICENSE](LICENSE).
 
