@@ -14,7 +14,7 @@ professional advice, and not a substitute for your own engineering judgement.
   Runtime capabilities (deterministic enforcement, evidence capture, dashboards, memory and
   migrations, skill installation) are provided by the paid Oystro engine and are outside the
   scope of this repository and this disclaimer.
-- **No liability.** To the maximum extent permitted by law, Oystro Technologies and the
+- **No liability.** To the maximum extent permitted by law, Oystro and the
   contributors accept **no liability** for any loss, damage, or consequence arising from the use
   of, or reliance on, these materials or any output produced with them.
 
