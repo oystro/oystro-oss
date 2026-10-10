@@ -4,8 +4,8 @@
 
 ## What's New
 
-- Initial public release of **Oystro OSS** — the file-based software engineering protocol
-  for AI coding assistants.
+- Initial public release of **Oystro OSS** — the file-based Agentic Development Lifecycle (ADLC) protocol
+  for AI coding agents.
 - Protocol reference only: conventions, templates, command contracts, and persona definitions.
 - Runtime capabilities (enforcement, evidence, dashboards, memory/migrations, skill
   installation) are provided by the Oystro engine (paid offering), not by this repository.

@@ -2,7 +2,7 @@
 
 # oystro-oss — Agent Instructions
 
-This project uses **Oystro OSS** — a file-based software engineering protocol for AI coding assistants. It defines the workflow, templates, gates, and personas. The runtime that executes and enforces them is the Oystro engine (paid offering).
+This project uses **Oystro OSS** — a file-based Agentic Development Lifecycle (ADLC) protocol for AI coding agents. It defines the workflow, templates, gates, and personas. The runtime that executes and enforces them is the Oystro engine (paid offering).
 
 ## Runtime Boundary
 
