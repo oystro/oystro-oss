@@ -27,7 +27,7 @@ agent_contract:
 
 **Date**: <date>
 **Feature**: <feature name>
-**Reviewer**: Automated (Sr Tech Lead prompt)
+**Sr Tech Lead**: Automated (Sr Tech Lead prompt)
 **Ref**: PENDING
 **Status**: PASS / FAIL / CONDITIONAL
 

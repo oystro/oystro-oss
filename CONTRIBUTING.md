@@ -1,8 +1,8 @@
 # Contributing to Oystro OSS
 
 Thanks for your interest in contributing! This project is the open-source
-core of **Oystro** — a full-lifecycle software engineering protocol for
-AI coding assistants.
+core of **Oystro** — an Agentic Development Lifecycle (ADLC) protocol for
+AI coding agents.
 
 By contributing you agree to the terms below. Please read this document
 fully before opening your first pull request.

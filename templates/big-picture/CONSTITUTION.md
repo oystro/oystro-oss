@@ -154,8 +154,8 @@ release_policy:
 
 | Logical Role | Commands Managed | File-Based Agent Definition | Responsibility & Context |
 |--------------|------------------|-----------------------------|--------------------------|
-| **Manager** | `/oystro:init`, `/oystro:upgrade`, `/oystro:status` | *None (Parent Context)* | Orchestrates the workflow execution, manages the subagent invocation loop, and checks status/quality gates. Run directly in the main/parent shell. |
-| **Analyst** | `/oystro:define` | `agents/collaborator/agent.md` | Explores the problem space and drafts the unified feature specification (`spec.yaml`, including design and tasks). |
+| **Collaborator** | `/oystro:init`, `/oystro:upgrade`, `/oystro:status` | *None (Parent Context)* | Orchestrates the workflow execution, manages the subagent invocation loop, and checks status/quality gates. Run directly in the main/parent shell. |
+| **Collaborator** | `/oystro:define` | `agents/collaborator/agent.md` | Explores the problem space and drafts the unified feature specification (`spec.yaml`, including design and tasks). |
 | **Developer** | `/oystro:build`, `/oystro:change` | `agents/developer/agent.md` | Implements against the approved Evidence Contract. |
 | **Sr Tech Lead** | `/oystro:review-pre-verify` (L only) | `agents/sr-tech-lead/agent.md` | Audits implementation code against the approved spec, verifying alignment and syntax conformance. |
 | **Gatekeeper** | `/oystro:approve`, `/oystro:verify`, `/oystro:release` | `agents/gatekeeper/agent.md` | Validates gate prerequisites, runs testing validation, and transmits explicit human approvals at Gates 1 and 2. |

@@ -2,7 +2,7 @@
 
 # oystro-oss — Agent Instructions
 
-This project uses **Oystro OSS** — a file-based software engineering protocol for AI coding assistants. It defines the workflow, templates, gates, and personas. The runtime that executes and enforces them is the Oystro engine (paid offering).
+This project uses **Oystro OSS** — a file-based Agentic Development Lifecycle (ADLC) protocol for AI coding agents. It defines the workflow, templates, gates, and personas. The runtime that executes and enforces them is the Oystro engine (paid offering).
 
 ## Runtime Boundary
 
@@ -36,24 +36,24 @@ A file-based workflow system that guides AI agents through software development.
 
 The protocol is built around a **multi-agent orchestration model**:
 
-- **Manager** (main thread, default persona) — orchestrates workflow, checks gates, routes to next step
-- **Subagents** (isolated context, specific persona) — execute commands in isolation, hand control back to Manager
+- **Collaborator** (main thread, default persona) — orchestrates workflow, checks gates, routes to next step
+- **Subagents** (isolated context, specific persona) — execute commands in isolation, hand control back to Collaborator
 
-In the reference model each command runs in a **subagent** with the right persona. The subagent reads only what it needs, does its work, writes outputs, and returns control to the Manager. This prevents context drift and ensures fresh-eyes reviews. The Oystro engine implements this isolation deterministically; without it, the agent follows the model in a single context.
+In the reference model each command runs in a **subagent** with the right persona. The subagent reads only what it needs, does its work, writes outputs, and returns control to the Collaborator. This prevents context drift and ensures fresh-eyes reviews. The Oystro engine implements this isolation deterministically; without it, the agent follows the model in a single context.
 
 ### Subagent Personas
 
 | Command | Subagent Persona | Isolation | Returns |
 |---------|-----------------|-----------|---------|
-| `/oystro:init` | Manager | N/A — bootstrap | scaffold + constitution |
-| `/oystro:define` | Analyst | Reads BRD, writes spec.yaml (design + tasks internal) | spec.yaml |
+| `/oystro:init` | Collaborator | N/A — bootstrap | scaffold + constitution |
+| `/oystro:define` | Collaborator | Reads BRD, writes spec.yaml (design + tasks internal) | spec.yaml |
 | `/oystro:approve` | Gatekeeper (human gate) | N/A — waits for human | Ref: APPROVED |
 | `/oystro:build` | Developer | Reads spec.yaml, writes code | code + evidence |
 | `/oystro:review-pre-verify` | Sr Tech Lead (L-level only) | Fresh context, no build memory | review report |
 | `/oystro:verify` | Gatekeeper | Runs evidence, writes report | verify/slice.yaml |
 | `/oystro:release` | Gatekeeper (human gate) | N/A — waits for human | merged PR |
 | `/oystro:change` | Developer | Reads change context, writes delta | CHG record + code |
-| `/oystro:status` | Manager | N/A — read only | status snapshot |
+| `/oystro:status` | Collaborator | N/A — read only | status snapshot |
 
 Design and tasks are internalised into `/oystro:define`; there are no separate design, tasks, or
 pre-build-review commands.
@@ -63,29 +63,29 @@ pre-build-review commands.
 ```
 User says "build it"
   ↓
-Manager receives request
+Collaborator receives request
   ↓
-Manager checks spec approval: spec.yaml Ref: APPROVED? (else route to /oystro:approve — Human Gate 1)
+Collaborator checks spec approval: spec.yaml Ref: APPROVED? (else route to /oystro:approve — Human Gate 1)
   ↓
-Manager spawns /oystro:build subagent (Developer persona)
+Collaborator spawns /oystro:build subagent (Developer persona)
   ↓
 Subagent reads spec.yaml, implements each task against the approved Evidence Contract, commits
   ↓
-Subagent completes → returns control to Manager
+Subagent completes → returns control to Collaborator
   ↓
-Manager checks gates (all tasks complete? tests pass?)
+Collaborator checks gates (all tasks complete? tests pass?)
   ↓
-IF workflow_level == L: Manager spawns /oystro:review-pre-verify (Sr Tech Lead, isolated)
+IF workflow_level == L: Collaborator spawns /oystro:review-pre-verify (Sr Tech Lead, isolated)
   ↓
-Subagent reviews with fresh eyes → returns control to Manager
+Subagent reviews with fresh eyes → returns control to Collaborator
   ↓
-Manager spawns /oystro:verify subagent (Gatekeeper)
+Collaborator spawns /oystro:verify subagent (Gatekeeper)
   ↓
 Subagent runs tests, writes verify/slice.yaml → returns control
   ↓
-Manager checks Release Ref: PENDING
+Collaborator checks Release Ref: PENDING
   ↓
-Manager waits for human approval (/oystro:release — Human Gate 2)
+Collaborator waits for human approval (/oystro:release — Human Gate 2)
 ```
 
 ### Gate Mechanism
@@ -102,7 +102,7 @@ build checks spec Ref: APPROVED (hard gate)
 verify/slice.yaml Release Ref: PENDING → /oystro:release (Human Gate 2) → APPROVED
 ```
 
-**Key insight**: Manager orchestrates. Subagents execute. Templates define the state machine.
+**Key insight**: Collaborator orchestrates. Subagents execute. Templates define the state machine.
 
 > **Note:** This file gets overwritten on upgrade. Project-local rules go in `.oystro-oss/CONSTITUTION.md`.
 
@@ -110,7 +110,7 @@ verify/slice.yaml Release Ref: PENDING → /oystro:release (Human Gate 2) → AP
 
 On first use, run `/oystro:init` or say "initialise this project using oystro-oss".
 
-### Manager Routing Rule
+### Collaborator Routing Rule
 
 User intent selects the desired outcome. Protocol state selects the next permitted command.
 
@@ -200,7 +200,7 @@ Read command files from `.oystro-oss/commands/` and follow them. Users talk natu
 |---------|-------------|------|
 | `/oystro:init` | Scan docs, derive project.yaml, plan.yaml, constitution | — |
 | `/oystro:upgrade` | Refresh the protocol reference; hand state to the paid product | — |
-| `review-pre-verify` | **Agent review (L-level only)** — Sr Tech Lead review of build vs spec (Manager-spawned) | Agent review |
+| `review-pre-verify` | **Agent review (L-level only)** — Sr Tech Lead review of build vs spec (Collaborator-spawned) | Agent review |
  
 ## Gates
  
@@ -276,9 +276,9 @@ Maintained skills from `https://github.com/oystro/oystro-oss-skills` are maintai
 
 ## Agent Modes
 
-The protocol uses a **multi-agent orchestration model** where the Manager spawns subagents with specific personas for each command. This is the reference model; the Oystro engine implements subagent spawning and isolation.
+The protocol uses a **multi-agent orchestration model** where the Collaborator spawns subagents with specific personas for each command. This is the reference model; the Oystro engine implements subagent spawning and isolation.
 
-### Manager (Main Thread)
+### Collaborator (Main Thread)
 - **Role**: Orchestrates workflow, checks gates, routes to next step
 - **Runs**: Operational commands (`/oystro:init`, `/oystro:upgrade`, `/oystro:status`)
 - **Responsibilities**:
@@ -287,15 +287,15 @@ The protocol uses a **multi-agent orchestration model** where the Manager spawns
   - Checks gates after subagent completes
   - Routes to next step or stops if gates fail
   - Maintains workflow state
-  - *Note: The Manager orchestrates, but approval belongs to the human at Gates 1 and 2.*
+  - *Note: The Collaborator orchestrates, but approval belongs to the human at Gates 1 and 2.*
 
 ### Subagent Personas
 Each command runs in an isolated subagent context with a specific persona:
 
 | Logical Role | Commands Managed | File-Based Agent Definition | Responsibility & Context |
 |--------------|------------------|-----------------------------|--------------------------|
-| **Manager** | `/oystro:init`, `/oystro:upgrade`, `/oystro:status` | *None (Parent Context)* | Orchestrates the workflow execution, manages the subagent invocation loop, and checks status/quality gates. Run directly in the main/parent shell. |
-| **Analyst** | `/oystro:define` | `agents/collaborator/agent.md` | Explores the problem space and drafts the unified feature specification (`spec.yaml`, including design and tasks). |
+| **Collaborator** | `/oystro:init`, `/oystro:upgrade`, `/oystro:status` | *None (Parent Context)* | Orchestrates the workflow execution, manages the subagent invocation loop, and checks status/quality gates. Run directly in the main/parent shell. |
+| **Collaborator** | `/oystro:define` | `agents/collaborator/agent.md` | Explores the problem space and drafts the unified feature specification (`spec.yaml`, including design and tasks). |
 | **Developer** | `/oystro:build`, `/oystro:change` | `agents/developer/agent.md` | Implements against the approved Evidence Contract and executes the unified bug/CR change workflow. |
 | **Sr Tech Lead** | `/oystro:review-pre-verify` (L only) | `agents/sr-tech-lead/agent.md` | Audits implementation against the approved spec, verifying alignment and conformance. |
 | **Gatekeeper** | `/oystro:approve`, `/oystro:verify`, `/oystro:release` | `agents/gatekeeper/agent.md` | Validates gate prerequisites, runs evidence validation, and transmits explicit human approvals at Gates 1 and 2. |
@@ -304,26 +304,26 @@ Each command runs in an isolated subagent context with a specific persona:
 ### Human and System Authority
 - **Human**: owns both gate decisions (`/oystro:approve` before build, `/oystro:release` after verify).
 - **Gatekeeper**: validates readiness and transmits the explicit human decision.
-- **Manager**: coordinates but cannot perform specialist work itself. Writes review and verification reports through delegation.
+- **Collaborator**: coordinates but cannot perform specialist work itself. Writes review and verification reports through delegation.
 - **Sr Tech Lead**: checks implementation before verification (L-level projects).
-- **Analyst**: owns design research. Typography, branding, visual references, accessibility, BDD, TDD, and Event Storming are *skills*, not separate personas.
+- **Collaborator**: owns design research. Typography, branding, visual references, accessibility, BDD, TDD, and Event Storming are *skills*, not separate personas.
 
 ### Subagent Handover Pattern
 
 ```
-1. Manager receives request (e.g., "build it")
-2. Manager spawns subagent with correct persona (e.g., Developer for /oystro:build)
+1. Collaborator receives request (e.g., "build it")
+2. Collaborator spawns subagent with correct persona (e.g., Developer for /oystro:build)
 3. Subagent executes in isolated context:
    - Reads only what it needs (spec.yaml and related artifacts)
    - Does its work (implements tasks, writes tests)
    - Writes outputs (code, tests, commits)
-4. Subagent completes → returns control to Manager
-5. Manager checks gates:
+4. Subagent completes → returns control to Collaborator
+5. Collaborator checks gates:
    - Are all tasks complete? (checks the spec's task list)
    - Did tests pass? (runs the project integration suite)
    - Is output correct? (checks file markers)
-6. If gates pass → Manager spawns next subagent
-7. If gates fail → Manager stops and reports to user
+6. If gates pass → Collaborator spawns next subagent
+7. If gates fail → Collaborator stops and reports to user
 ```
 
 ### Why Multi-Agent?
@@ -331,8 +331,8 @@ Each command runs in an isolated subagent context with a specific persona:
 1. **Prevents context drift**: Each subagent has fresh context, no memory of previous work
 2. **Enforces fresh-eyes review**: Sr Tech Lead subagent reviews with no build memory
 3. **Clear separation of concerns**: Each persona has specific responsibilities
-4. **Prevents mode confusion**: Developer doesn't try to design, Analyst doesn't implement
-5. **Maintains discipline**: Subagents follow strict rules, Manager enforces gates
+4. **Prevents mode confusion**: Developer doesn't try to design, Collaborator doesn't implement
+5. **Maintains discipline**: Subagents follow strict rules, Collaborator enforces gates
 
 ### Change Workflow
  
@@ -340,7 +340,7 @@ For bugs and change requests, the workflow is streamlined:
  
 | Type | Branch | Subagent Flow |
 |------|--------|---------------|
-| **Change** | `change/CHG-NNN-<slug>` | Manager → Developer (baseline + worktree) → Developer (smallest delta) → Gatekeeper (verify) |
+| **Change** | `change/CHG-NNN-<slug>` | Collaborator → Developer (baseline + worktree) → Developer (smallest delta) → Gatekeeper (verify) |
  
 Both skip the full design/tasks cycle and pre-build approval gates, using one change record (CHG-NNN.yaml) and focused evidence verification.
 
