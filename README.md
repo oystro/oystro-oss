@@ -2,6 +2,8 @@
 
 **An Agentic Development Lifecycle (ADLC) protocol for AI coding agents.**
 
+**Website:** [oystro.com](https://oystro.com) · **User Guide:** [oystro.com/documentation](https://oystro.com/documentation)
+
 One protocol. Any agent. Any project. From big picture to shipped feature — with human gates,
 structured templates, and explicit phase transitions for large BRDs.
 
