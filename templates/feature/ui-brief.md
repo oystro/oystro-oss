@@ -29,7 +29,7 @@ agent_contract:
 **Feature**: [feature name]
 **UI Impact**: none | low | medium | high
 **Date**: YYYY-MM-DD
-**Analyst**: [agent/human]
+**Collaborator**: [agent/human]
 
 ---
 

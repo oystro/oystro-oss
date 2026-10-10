@@ -64,18 +64,18 @@ design or tasks commands.
 
 Read the command contracts from `commands/` (installed projects: `.oystro-oss/commands/`).
 
-| Command | Logical Role | What happens | Gate |
+| Command | Persona | What happens | Gate |
 |---------|--------------|-------------|------|
-| `/oystro:init` | Manager | Scan docs, derive constitution/BRD/architecture, plan phases | — |
-| `/oystro:define` | Analyst | Create `spec.yaml` from the BRD, including design and tasks | — |
+| `/oystro:init` | Collaborator | Scan docs, derive constitution/BRD/architecture, plan phases | — |
+| `/oystro:define` | Collaborator | Create `spec.yaml` from the BRD, including design and tasks | — |
 | `/oystro:approve` | Gatekeeper | **Human Gate 1** — approve the spec/design before build | Human |
 | `/oystro:build` | Developer | Implement against the approved Evidence Contract — one commit per task | — |
 | `/oystro:review-pre-verify` | Sr Tech Lead | Fresh-context review of build against the contract (**L only**) | Agent review |
 | `/oystro:verify` | Gatekeeper | Run approved evidence, check acceptance criteria, write verification | — |
 | `/oystro:release` | Gatekeeper | **Human Gate 2** — disclose deferred, merge, archive, update status | Human |
 | `/oystro:change` | Developer | Unified bug and CR workflow: baseline → smallest delta → verify | — |
-| `/oystro:status` | Manager | Project state snapshot (provided by the Oystro engine) | — |
-| `/oystro:upgrade` | Manager | Refresh the protocol reference; hand state to the paid product | — |
+| `/oystro:status` | Collaborator | Project state snapshot (provided by the Oystro engine) | — |
+| `/oystro:upgrade` | Collaborator | Refresh the protocol reference; hand state to the paid product | — |
 
 > Command names and the `/oystro:` prefix are shared with the Oystro engine and remain stable.
 

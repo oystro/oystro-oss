@@ -3,7 +3,7 @@ name: oystro-init
 description: >
   Initialize Oystro in project. Detect scenario, derive docs, create scaffold.
 
-persona: Manager
+persona: Collaborator
 reason: Bootstrap operation
 goal: Produce rich, expressive, and highly readable foundational documents (BRD, Architecture) using the provided templates in .oystro-oss/templates/.
 

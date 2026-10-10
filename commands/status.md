@@ -2,7 +2,7 @@
 name: oystro-status
 description: Display current project state
 
-persona: Manager
+persona: Collaborator
 reason: Read-only operation
 runtime: Oystro engine (status, JSON, and static HTML output)
 

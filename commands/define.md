@@ -1,8 +1,8 @@
 ---
 name: oystro-define
-description: Analyst persona - create unified feature spec.yaml from BRD
+description: Collaborator persona - create unified feature spec.yaml from BRD
 
-persona: Analyst
+persona: Collaborator
 goal: Produce a unified, machine-readable spec.yaml document that explicitly follows templates/spec.yaml.
 
 gates:

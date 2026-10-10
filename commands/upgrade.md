@@ -2,7 +2,7 @@
 name: oystro-upgrade
 description: Refresh the oystro-oss protocol reference and, when adopting the paid offering, hand project state to the Oystro engine
 
-persona: Manager
+persona: Collaborator
 reason: Bootstrap operation
 canonical_url: https://raw.githubusercontent.com/oystro/oystro-oss/main/commands/upgrade.md
 execution_source: fetched_canonical_required
