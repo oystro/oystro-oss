@@ -1,0 +1,54 @@
+name: Feature request
+description: Propose a change to the protocol, templates, commands, personas, or documentation.
+title: "feat: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This repository is the **protocol** only — conventions, templates, command
+        contracts, and personas. The runtime that enforces the workflow is a separate product.
+        Proposals here should concern the protocol itself.
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What is hard, missing, or wrong today. Describe the situation, not the solution.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: What you would like the protocol to do instead.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Other approaches you weighed, and why they are worse.
+    validations:
+      required: false
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Workflow / phases / gates
+        - Templates
+        - Command contracts
+        - Personas
+        - Documentation
+        - Other
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched existing issues and discussions.
+          required: true
+        - label: I have read the Contributing guide, including the CLA.
+          required: true

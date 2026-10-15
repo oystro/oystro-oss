@@ -1,0 +1,53 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets — never commit
+*.env
+.env
+.env.*
+# Scope to the repository root on purpose: a bare "config.yml" also matches
+# tooling files that must be committed (for example
+# .github/ISSUE_TEMPLATE/config.yml, which GitHub requires by that exact name).
+/config.yaml
+/config.yml
+*.key
+*.pem
+secrets/
+
+# Build artifacts
+# Root-scoped on purpose: a bare "bin/" or "dist/" matches at any depth and can
+# silently hide a nested directory that should be committed.
+/bin/
+/dist/
+coverage.out
+*.test
+*.prof
+node_modules/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Logs
+*.log
+
+# Consumer-project state (created inside a user's project, never in this protocol repo)
+.oystro-oss/
+.oystro/
+
+# Temp files
+*.tmp
+*.temp
+
+# Agent Worktrees & Temp
+.worktrees/
+work-temp/

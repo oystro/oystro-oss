@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Question or how-to
+    url: https://github.com/oystro/oystro-oss/discussions/categories/q-a
+    about: Ask and answer questions in Discussions. Please do not open an issue for questions.
+  - name: Share feedback or an idea
+    url: https://github.com/oystro/oystro-oss/discussions/categories/ideas-feedbacks
+    about: Tell us what worked, what did not, and what you would change.
+  - name: Report a security vulnerability
+    url: https://github.com/oystro/oystro-oss/security/advisories/new
+    about: Report vulnerabilities privately. Do not open a public issue. See SECURITY.md.

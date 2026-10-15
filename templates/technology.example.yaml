@@ -1,0 +1,27 @@
+# Example technology.yaml — copy to .oystro-oss/technology.yaml and adapt.
+# Records toolchain decisions and the project's evidence (sensor) contract.
+#
+# The evidence items below are executed by the Oystro engine. In a protocol-only project
+# there is no executor: the agent runs them manually and the human is the enforcement point.
+
+project:
+  name: "my-project"
+
+stack:
+  language: "Go"
+  language_rationale: "Performance, single static binary, easy deployment"
+  database: "PostgreSQL"
+  database_rationale: "ACID transactions"
+
+# Minimum evidence that must pass at the declared lifecycle points.
+evidence:
+  - id: unit-tests
+    command: "go test ./..."
+    required_before: [verify]
+    timeout: 120
+    evidence: "stdout, stderr, exit status, timestamp"
+  - id: integration-smoke
+    command: "bash scripts/integration-smoke.sh"
+    required_before: [review-pre-verify, verify]
+    timeout: 300
+    evidence: "stdout, stderr, exit status, timestamp"

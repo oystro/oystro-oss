@@ -1,0 +1,55 @@
+name: Community files
+
+# Guards against the failure mode where a required file exists on disk but is
+# ignored by .gitignore (or simply untracked), so it never reaches a commit.
+# That is exactly how .github/ISSUE_TEMPLATE/config.yml was silently dropped:
+# a broad "config.yml" ignore rule matched the filename GitHub requires.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  required-community-files:
+    name: required-community-files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Required files must exist, be tracked, and not be ignored
+        run: |
+          set -u
+          fail=0
+          for f in \
+            README.md \
+            LICENSE \
+            NOTICE \
+            CONTRIBUTING.md \
+            SECURITY.md \
+            .github/ISSUE_TEMPLATE/config.yml \
+            .github/ISSUE_TEMPLATE/bug_report.yml \
+            .github/ISSUE_TEMPLATE/feature_request.yml
+          do
+            if [ ! -e "$f" ]; then
+              echo "::error file=$f::missing - required file does not exist"
+              fail=1
+            elif git check-ignore --no-index -q "$f" 2>/dev/null; then
+              echo "::error file=$f::ignored by .gitignore - it can never be committed"
+              fail=1
+            elif ! git ls-files --error-unmatch "$f" >/dev/null 2>&1; then
+              echo "::error file=$f::untracked - not added to git"
+              fail=1
+            else
+              echo "ok: $f"
+            fi
+          done
+          if [ "$fail" -ne 0 ]; then
+            echo "One or more required community files would not ship."
+          else
+            echo "All required community files are present, tracked, and not ignored."
+          fi
+          exit "$fail"

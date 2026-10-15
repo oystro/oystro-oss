@@ -1,0 +1,68 @@
+name: Bug report
+description: Report a defect in the protocol, templates, commands, or documentation.
+title: "bug: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. For questions or how-to, use
+        [Discussions](https://github.com/oystro/oystro-oss/discussions/categories/q-a) instead.
+        For security vulnerabilities, follow [SECURITY.md](https://github.com/oystro/oystro-oss/blob/main/SECURITY.md).
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: A clear description of the defect.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+      description: What the protocol, template, or command should have done instead.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: The exact sequence, including the commands and prompts you used.
+      placeholder: |
+        1. Initialise the workflow with ...
+        2. Invoke oystro:define ...
+        3. ...
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Relevant output, files, or a link to a repository that reproduces it. Redact anything private.
+    validations:
+      required: false
+  - type: input
+    id: version
+    attributes:
+      label: Oystro OSS version
+      description: The version from the VERSION file, or the release tag.
+      placeholder: e.g. 0.1.0
+    validations:
+      required: true
+  - type: input
+    id: agent
+    attributes:
+      label: Agent and model
+      description: Which agent and model were you driving?
+      placeholder: e.g. Claude Code / Sonnet, Codex / GPT-5, Cursor
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched existing issues and discussions.
+          required: true
+        - label: This is not a security vulnerability (those go through SECURITY.md).
+          required: true
